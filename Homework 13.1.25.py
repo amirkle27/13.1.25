@@ -141,13 +141,19 @@ class FoodProduct:
             raise TypeError(f"Date must be of type datetime, and cant be {type(new_expiration_date)}")
 
     @property
-    def remaining(self, new_expiration_date):
-        return datetime.now()-new_expiration_date
+    def remaining(self):
+        remaining_days = (self.__expiration_date - datetime.now()).days
+        if remaining_days >= 0:
+            return remaining_days
+        else:
+            raise ValueError(f"Date has already expired!")
 
 
 
-first = FoodProduct('milk', 5, 'dairy', datetime.strptime('16/1/2024', '%d/%m/%Y'), datetime.strptime('27/3/2024', '%d/%m/%Y'))
-second = FoodProduct('cottage', 7, 'dairy', datetime.strptime('15/3/2024', '%d/%m/%Y'), datetime.strptime('20/4/2024', '%d/%m/%Y'))
+
+first = FoodProduct('Milk', 5, 'Dairy', datetime.strptime('16/1/2024', '%d/%m/%Y'), datetime.strptime('27/3/2026', '%d/%m/%Y'))
+second = FoodProduct('Cottage', 7, 'Dairy', datetime.strptime('15/3/2024', '%d/%m/%Y'), datetime.strptime('20/4/2024', '%d/%m/%Y'))
+third = FoodProduct('Chicken Breast', 39.9, 'Meat', datetime.strptime('9/9/2024', '%d/%m/%Y'), datetime.strptime('1/2/2025', '%d/%m/%Y'))
 
 print(first)
 print(second)
@@ -164,3 +170,4 @@ print(first!=second)
 print(hash(first))
 print(len(first))
 print(first)
+print(first.remaining)
